@@ -27,6 +27,13 @@ jobs:
     - run: npm run pack:win:publish
       env:
         GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - name: Zip Release
+      id: zip-release-windows
+      uses: TheDoctor0/zip-release@0.6.1
+      with:
+        filename: Another-Redis-Desktop-Manager-${{ env.VERSION }}.zip
+        directory: ./dist/
+        path: ./resources    
     - name: Upload Release Asset-Zip
       id: upload-release-asset-zip
       uses: actions/upload-release-asset@v1
@@ -35,6 +42,6 @@ jobs:
       with:
         # upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: rdm/build/windows/installer/resp-${{ env.VERSION }}.zip
-        asset_name: resp-${{ env.VERSION }}.zip
+        asset_path: dist/Another-Redis-Desktop-Manager-${{ env.VERSION }}.zip
+        asset_name: Another-Redis-Desktop-Manager-${{ env.VERSION }}.zip
         asset_content_type: application/zip
