@@ -38,4 +38,5 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "release.zip"
+        tag: "nightly"
         token: ${{ secrets.GITHUB_TOKEN }}
