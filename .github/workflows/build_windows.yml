@@ -39,4 +39,5 @@ jobs:
       with:
         artifacts: "release.zip"
         tag: "nightly"
+        commit: master
         token: ${{ secrets.GITHUB_TOKEN }}
