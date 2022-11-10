@@ -32,7 +32,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'release.zip'
-        path: dist/
+        path: dist/build-apps/win-unpacked
         exclusions: '*.git* /*node_modules/* .editorconfig'
     - name: Upload Release
       uses: ncipollo/release-action@v1
