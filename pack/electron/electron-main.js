@@ -38,6 +38,8 @@ if (APP_ENV === 'production') {
   require('./update')();
 }
 
+app.setPath ('userData', 'd:/Applications/Configs/ARedisDM');
+
 function createWindow() {
   // get last win stage
   const lastWinStage = winState.getLastState();
