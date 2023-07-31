@@ -37,3 +37,10 @@ jobs:
         filename: 'release.zip'
         path: dist/build-apps/win-unpacked
         exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "release.zip"
+        tag: nightly-${{ env.CURRENTDATE }}
+        commit: master
+        token: ${{ secrets.GITHUB_TOKEN }}     
