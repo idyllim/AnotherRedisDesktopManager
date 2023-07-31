@@ -222,9 +222,24 @@ export default {
         return this.content = [];
       }
 
+      // mock help command
+      if (paramsArr[0].toLowerCase() == 'help') {
+        return this.scrollToBottom('Input your command and select from tips');
+      }
+
       // multi-exec mode
       if (params == 'multi') {
         this.multiQueue = [];
+        return this.scrollToBottom('OK');
+      }
+
+      //multi-discard-mode
+      if (params == 'discard') {
+      // discard when not multi condition
+        if (!Array.isArray(this.multiQueue)) {
+          return this.scrollToBottom('(error) ERR DISCARD without MULTI');
+        }
+        this.multiQueue = null;
         return this.scrollToBottom('OK');
       }
 
@@ -425,7 +440,7 @@ export default {
       });
     },
     storeCommandTips() {
-      const key = `cliTips_${this.client.options.connectionName}`;
+      const key = this.$storage.getStorageKeyByName('cli_tip', this.client.options.connectionName);
       localStorage.setItem(key, JSON.stringify(this.inputSuggestionItems.slice(-200)));
     },
   },

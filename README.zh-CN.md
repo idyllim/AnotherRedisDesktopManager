@@ -60,6 +60,9 @@
 
 ## 里程碑
 
+- 2023-06-22: 不同db\数据库之间支持导入导出key
+- 2023-05-26: Stream类型搜索支持 && 支持慢日志查询
+- 2023-04-01: List类型搜索支持 && Deflate raw 支持
 - 2022-10-07: Key列表方向键 && 内存分析支持指定文件夹
 - 2022-08-05: 克隆连接 && Tabs右键和滚轮支持
 - 2022-04-01: Protobuf 支持 && 内存占用分析
@@ -193,6 +196,49 @@ npm run pack:linux
 在这里感谢所有为此项目做出贡献的人.
 [![contributors](https://opencollective.com/AnotherRedisDesktopManager/contributors.svg?width=890&button=false)](https://github.com/qishibo/AnotherRedisDesktopManager/graphs/contributors)
 [![backers](https://opencollective.com/AnotherRedisDesktopManager/backers.svg)](https://opencollective.com/AnotherRedisDesktopManager)
+
+
+## 自定义格式化
+
+> 当默认可视化方式不满足需求时，可以使用自定义脚本来格式化你的内容。
+<br>方式：可视化列表下拉到底部，点击"自定义->新增"，然后参考下面说明。
+<br>注意：脚本需要通过`print` `console.log` `echo`等输出格式化好的内容，可以是任意字符串或者JSON字符串
+
+
+| 配置项 | 参数说明 |
+| ------ | ------ |
+| `Name` | 自定义名称 |
+| `Command` | 可执行命令，如`xxx.py` `xxx.js` `xxx.class`等，该文件需要具有可执行的`x`权限，可以通过形如`./xxx.py`方式执行；也可以直接用系统命令`/bin/node` `/bin/bash`等，此时需要把脚本路径放到Params里 |
+| `Params` | 拼接在`Command`后的参数，如"--key `{KEY}` --value `{VALUE}`"，其中`{KEY}`和`{VALUE}`在执行时会被替换成对应的Redis key和value。注意如果内容为二进制等不可见字符时，可以使用`{HEX}`代替`{VALUE}`，`{HEX}`会被替换成对应value的16进制即hex编码 |
+
+### 配置样例：
+> 脚本文件首行要增加env说明，最终执行的命令如: `./home/qii/pickle_decoder.py {HEX}`, 脚本中可以使用`argv[1]`接收参数
+
+| Command | Params |
+| ------ | ------ |
+| `/home/qii/pickle_decoder.py` | `{HEX}` |
+| `/home/qii/shell_decoder.sh` | `{VALUE}` |
+
+### 脚本文件无执行权限时：
+> 最终执行的命令如: `/bin/node /home/qii/node_decoder.js {HEX}`, 脚本中可以使用`argv[1]`接收参数
+
+| Command | Params |
+| ------ | ------ |
+| `/bin/bash` | `/home/qii/shell_decoder.sh {VALUE}` |
+| `/bin/node` | `/home/qii/node_decoder.js {HEX} --key={KEY}` |
+
+
+## FAQ
+
+#### 1. 内网中的Redis集群如何连接（如Docker内，局域网内，AWS内）？
+   
+   答：使用`SSH+Cluster`的方式连接（等价于先SSH到内网，再使用内网ip连接Cluster），Redis的Host填写Redis**内网ip**地址如`127.0.0.1` `192.168.x.x`。
+   
+   Redis内网地址如何获得？直接以SSH的方式连接，不勾选Cluster，然后打开命令行，直接执行`CLUSTER NODES`， 在结果中选一ip即可。
+
+#### 2. Redis配置中的`Username`用户名是否需要填写？
+   
+   答：用户名为`Redis>=6.0`才支持的访问控制列表（`ACL`），默认不需要填写（为default），指定特殊用户时才填写。
 
 
 ## License

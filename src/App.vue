@@ -141,6 +141,9 @@ body {
 button, input, textarea, .vjs__tree {
   font-family: inherit !important;
 }
+a {
+  color: #8e8d8d;
+}
 
 
 /*fix el-select bottom scroll bar*/
@@ -187,8 +190,10 @@ button, input, textarea, .vjs__tree {
 /*list index*/
 li .list-index {
   color: #828282;
-  font-size: 80%;
+  /*font-size: 80%;*/
   user-select: none;
+  margin-right: 10px;
+  min-width: 28px;
 }
 .dark-mode li .list-index {
   color: #adacac;
