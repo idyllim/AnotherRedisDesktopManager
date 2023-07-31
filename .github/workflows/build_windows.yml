@@ -41,6 +41,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: "release.zip"
-        tag: nightly-${{ env.CURRENTDATE }}
+        tag: nightly-${{ steps.date.outputs.date }}
         commit: master
         token: ${{ secrets.GITHUB_TOKEN }}     
